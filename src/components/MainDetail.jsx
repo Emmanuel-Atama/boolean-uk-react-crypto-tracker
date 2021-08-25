@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { getCriptoUpdateUrl } from "../constants";
+import { useEffect, useState } from 'react'
+import { getCriptoUpdateUrl } from '../constants'
 
 // This function give us the current time in seconds
 function currentTime() {
-  return Math.round(Date.now() / 1000);
+  return Math.round(Date.now() / 1000)
 }
 
 /*
@@ -11,21 +11,31 @@ function currentTime() {
  */
 function convertToSeconds(dateValue) {
   // This guard is needed due to the API discrepancies in handling dates
-  return typeof dateValue === "string"
+  return typeof dateValue === 'string'
     ? Math.round(Date.parse(dateValue) / 1000)
-    : dateValue;
+    : dateValue
 }
 
-export default function MainDetail() {
+export default function MainDetail(props) {
   return (
     <>
       <section className="main-detail__central">
         <div className="main-detail__update">
           {/* This part is for the challenge */}
         </div>
-        <div className="main-detail__name"></div>
-        <div className="main-detail__price"></div>
+
+        <div className="main-detail__name">
+          <h2>{props.name}</h2>
+          <p>
+            <span className="small">a.k.a </span>
+            {props.symbol}
+          </p>
+        </div>
+        <div className="main-detail__price">
+          <p>£27979</p>
+          <p>Updated 1191 seconds ago</p>
+        </div>
       </section>
     </>
-  );
+  )
 }
