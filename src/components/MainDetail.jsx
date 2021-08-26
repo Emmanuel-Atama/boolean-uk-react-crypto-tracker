@@ -32,8 +32,8 @@ export default function MainDetail(props) {
           </p>
         </div>
         <div className="main-detail__price">
-          <p>£27979</p>
-          <p>Updated 1191 seconds ago</p>
+          <p>{props.current_price}</p>
+          <p>Updated {props.last_updated} seconds ago</p>
         </div>
       </section>
     </>
