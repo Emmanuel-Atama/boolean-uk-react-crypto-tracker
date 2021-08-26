@@ -25,19 +25,19 @@ function App() {
       .then(result => {
         setCoins(result)
       })
-    // console.log('Inside setCoin fetch: ')
+    console.log('Inside setCoin fetch: ')
   }, [])
 
   useEffect(() => {
     if (selectedCripto) {
-      fetch(
-        `https://api.coingecko.com/api/v3/coins/${selectedCripto}/status_updates`
-      )
-        .then(res => res.json())
-        .then(newsFeed => {
-          console.log('Inside Fetch to statusupdate: ', newsFeed.status_updates)
+      const url = `https://api.coingecko.com/api/v3/coins/${selectedCripto}/status_updates`
 
-          setNewsFeed(newsFeed.status_updates)
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          console.log('Inside Fetch to STATUS_UPDATES: ', data)
+          const statusUpdates = data['status_updates']
+          setNewsFeed(statusUpdates)
         })
     }
   }, [selectedCripto])
@@ -63,20 +63,19 @@ function App() {
       </aside>
       <main className="main-detail">
         {selectedCripto ? (
-          <MainDetail
-            coin={mainDetailCoin}
-            name={coins.name}
-            symbol={coins.symbol}
-            current_price={coins.current_price}
-            last_updated={coins.last_updated}
-          />
+          <MainDetail coin={mainDetailCoin} />
         ) : (
           'select a coin bro!'
         )}
-        <ul className="newsfeed">
-          {/* description={description} */}
-          <NewsCard />
-        </ul>
+        {
+          <ul className="newsfeed">
+            {newsFeed.length > 1
+              ? newsFeed.map((news, index) => {
+                  return <NewsCard key={index} newsItem={news} />
+                })
+              : 'No news here!'}
+          </ul>
+        }
       </main>
     </>
   )

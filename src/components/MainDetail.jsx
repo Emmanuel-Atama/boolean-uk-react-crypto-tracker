@@ -17,6 +17,9 @@ function convertToSeconds(dateValue) {
 }
 
 export default function MainDetail(props) {
+  const { coin } = props
+
+  const { name, symbol, current_price } = coin
   return (
     <>
       <section className="main-detail__central">
@@ -25,15 +28,15 @@ export default function MainDetail(props) {
         </div>
 
         <div className="main-detail__name">
-          <h2>{props.name}</h2>
+          <h2>{name}</h2>
           <p>
             <span className="small">a.k.a </span>
-            {props.symbol}
+            {symbol}
           </p>
         </div>
         <div className="main-detail__price">
-          <p>{props.current_price}</p>
-          <p>Updated {props.last_updated} seconds ago</p>
+          <p>{current_price}</p>
+          <p>Updated 1191 seconds ago</p>
         </div>
       </section>
     </>
