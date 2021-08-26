@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react'
 import MainDetail from './components/MainDetail'
 import { CRIPTO_LIST } from './constants'
 import SideListItem from './components/SideListItem'
-import NewsCard from './components/NewsCard'
+import NewsFeed from './components/NewsFeed'
+import SideList from './components/SideList'
 
 function App() {
   // This piece of state keeps the id from the selected coin to be displayed in the MainDetail component
@@ -28,19 +29,6 @@ function App() {
     console.log('Inside setCoin fetch: ')
   }, [])
 
-  useEffect(() => {
-    if (selectedCripto) {
-      const url = `https://api.coingecko.com/api/v3/coins/${selectedCripto}/status_updates`
-
-      fetch(url)
-        .then(res => res.json())
-        .then(data => {
-          console.log('Inside Fetch to STATUS_UPDATES: ', data)
-          const statusUpdates = data['status_updates']
-          setNewsFeed(statusUpdates)
-        })
-    }
-  }, [selectedCripto])
   function findCoin(targetId) {
     return coins.find(coin => coin.id === targetId)
   }
@@ -48,7 +36,13 @@ function App() {
   return (
     /* These (<> </>) are called React Fragments, and allow us to return more than one top element */
     <>
-      <aside className="side-list">
+      <SideList
+        coins={coins}
+        item={coins}
+        isSelectedCripto={isSelectedCripto}
+        selectCripto={setSelectedCripto}
+      />
+      {/* <aside className="side-list">
         <ul>
           {coins.map(coin => {
             return (
@@ -60,22 +54,14 @@ function App() {
             )
           })}
         </ul>
-      </aside>
+      </aside> */}
       <main className="main-detail">
         {selectedCripto ? (
           <MainDetail coin={mainDetailCoin} />
         ) : (
           'select a coin bro!'
         )}
-        {
-          <ul className="newsfeed">
-            {newsFeed.length > 1
-              ? newsFeed.map((news, index) => {
-                  return <NewsCard key={index} newsItem={news} />
-                })
-              : 'No news here!'}
-          </ul>
-        }
+        <NewsFeed selectedCripto={selectedCripto} />
       </main>
     </>
   )
